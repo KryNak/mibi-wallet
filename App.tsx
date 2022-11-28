@@ -18,7 +18,7 @@ export default function App() {
             Input: {
                 defaultProps: {
                     size: '2xl',
-                    variant: 'underlined',
+                    variant: 'unstyled',
                     keyboardAppearance: 'dark'
                 }
             },

@@ -1,15 +1,19 @@
 import {
     Box,
-    Button, HStack, Icon,
+    Button, Center, Divider, HStack, Icon,
     IconButton,
-    Input, Pressable, Stack,
-    Text, theme, VStack
+    Input, PresenceTransition, Pressable, Stack,
+    Text, theme
 } from "native-base";
 import styled, {css} from "styled-components";
 import {MaterialCommunityIcons} from "@expo/vector-icons"
 import {useCallback, useMemo, useRef, useState} from "react";
-import {BottomSheetModal, BottomSheetModalProvider} from "@gorhom/bottom-sheet";
+import {
+    BottomSheetModal,
+    BottomSheetModalProvider
+} from "@gorhom/bottom-sheet";
 import {colors} from "./colors";
+import RNDateTimePicker, {DateTimePickerEvent} from "@react-native-community/datetimepicker";
 
 export const Main = () => {
 
@@ -29,7 +33,18 @@ export const Main = () => {
         console.log('handleSheetChanges', index);
     }, []);
 
+    const handleDateChange = (event: DateTimePickerEvent) => {
+        const {nativeEvent: {timestamp}} = event;
+        setDate(new Date(timestamp ?? 0))
+    };
+
+    const [date, setDate] = useState<Date>(new Date());
     const [selectedIndex, setSelectedIndex] = useState<number>(0);
+    const [isDatePickerVisible, setDatePickerVisible] = useState<boolean>(false);
+
+    const toggleDatePicker = () => {
+        setDatePickerVisible(prev => !prev);
+    }
 
     return (
         <>
@@ -52,6 +67,7 @@ export const Main = () => {
                     snapPoints={snapPoints}
                     onChange={handleSheetChanges}
                     backgroundStyle={{backgroundColor: colors.secondary}}
+                    handleIndicatorStyle={{backgroundColor: 'white'}}
                 >
                     <ActionSheetContainer>
                         <ActionSheetInnerContainer>
@@ -78,10 +94,21 @@ export const Main = () => {
                                     )}
                                 </BarButton>
                             </Bar>
-                            <MoneyInput variant={'underlined'} size={'2xl'}/>
-                            <Input InputLeftElement={<Icon as={MaterialCommunityIcons} name={'calendar'} size={'2xl'}></Icon>}/>
-                            <Input InputLeftElement={<Icon as={MaterialCommunityIcons} name={'grid'} size={'2xl'}/>}/>
-                            <Input InputLeftElement={<Icon as={MaterialCommunityIcons} name={'note-edit-outline'} size={'2xl'}></Icon>}/>
+                            <Divider/>
+                            <MoneyInput size={'2xl'}/>
+                            <Divider/>
+                            <DateTextArea>
+                                <Icon as={MaterialCommunityIcons} name={'calendar'} size={'2xl'}></Icon>
+                                <Pressable onPress={toggleDatePicker}><Text fontSize={18}>{date.toDateString()}</Text></Pressable>
+                            </DateTextArea>
+                            <Divider/>
+                            <DateComponent style={{height: isDatePickerVisible ? '200px' : '0'}} onChange={handleDateChange} themeVariant={'dark'} value={date}
+                                           display={'spinner'}></DateComponent>
+                            <Divider/>
+                            <StyledInput InputLeftElement={<Icon as={MaterialCommunityIcons} name={'grid'} size={'2xl'}/>}/>
+                            <Divider/>
+                            <StyledInput InputLeftElement={<Icon as={MaterialCommunityIcons} name={'note-edit-outline'} size={'2xl'}></Icon>}/>
+                            <Divider/>
                             <SaveExpenseButtonArea>
                                 <Button size={'md'}>Zapisz</Button>
                             </SaveExpenseButtonArea>
@@ -92,6 +119,19 @@ export const Main = () => {
         </>
     )
 }
+
+const DateComponent = styled(RNDateTimePicker)`
+  width: 100%;
+  height: 200px;
+`
+
+const DateTextArea = styled(Box)`
+  margin: 10px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`
 
 const MainContainer = styled(Box)`
   display: flex;
@@ -140,18 +180,27 @@ const ActionSheetContainer = styled(Stack)`
 `
 
 const ActionSheetInnerContainer = styled(Stack)`
-  width: 80%;
+    width: 100%;
 `
 
 const MoneyInput = styled(Input)`
   width: 100%;
   min-width: 100%;
   text-align: right;
+  margin-top: 5px;
+  margin-bottom: 5px;
+`
+
+const StyledInput = styled(Input)`
+  width: 80%;
+  margin-top: 5px;
+  margin-bottom: 5px;
 `
 
 const Bar = styled(HStack)`
   display: flex;
   justify-content: space-around;
+  margin-bottom: 10px;
 `
 
 interface BarButtonProps {

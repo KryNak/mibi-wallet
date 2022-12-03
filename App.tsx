@@ -3,6 +3,8 @@ import { store } from "./store";
 import { Main } from "./Main";
 import { extendTheme, NativeBaseProvider } from "native-base";
 import { StatusBar } from "react-native";
+import { BottomSheetModalSupervisorContextProvider } from "./components/BottomSheetModalSupervisor";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 export default function App() {
 
@@ -41,7 +43,11 @@ export default function App() {
     return (
         <ReduxProvider store={store}>
             <NativeBaseProvider theme={theme}>
-                <Main/>
+                <BottomSheetModalProvider>
+                    <BottomSheetModalSupervisorContextProvider>
+                        <Main/>
+                    </BottomSheetModalSupervisorContextProvider>
+                </BottomSheetModalProvider>
             </NativeBaseProvider>
         </ReduxProvider>
     )

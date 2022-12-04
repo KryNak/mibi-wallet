@@ -18,6 +18,7 @@ import RNDateTimePicker, {DateTimePickerEvent} from "@react-native-community/dat
 import {useState} from "react";
 import {BottomSheetTextInput} from "@gorhom/bottom-sheet";
 import {colors} from "../colors";
+import {Avatar, ExpandableSection, ListItem} from "react-native-ui-lib";
 
 export const NewExpenseView = () => {
 
@@ -48,6 +49,9 @@ export const NewExpenseView = () => {
 
         animation.value = {height: 200}
     }
+
+    const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
     return (
         <ActionSheetContainer>
@@ -109,13 +113,38 @@ export const NewExpenseView = () => {
                     <Modal.CloseButton marginTop={35}/>
                     <Modal.Header style={{backgroundColor: colors.secondary}} marginTop={35}>Wybierz kategorię</Modal.Header>
                     <Modal.Body>
-
+                        <ExpandableSection
+                            expanded={isExpanded}
+                            sectionHeader={<Text>Wydatki różne</Text>}
+                            onPress={() => setIsExpanded(prev => !isExpanded)}>
+                            {items.map(e => {
+                                return (
+                                    <StyledListItem key={e}>
+                                        <ListItem.Part left>
+                                            <Avatar name={`${e}`} useAutoColors={true} size={20}/>
+                                        </ListItem.Part>
+                                        <ListItem.Part middle>
+                                            <Text>{e}</Text>
+                                        </ListItem.Part>
+                                    </StyledListItem>
+                                )
+                            })}
+                        </ExpandableSection>
+                        <ExpandableSection
+                            expanded={false}
+                            sectionHeader={<Text>Rozrywki</Text>}>
+                        </ExpandableSection>
                     </Modal.Body>
                 </Modal.Content>
             </Modal>
         </ActionSheetContainer>
     )
 }
+
+const StyledListItem = styled(ListItem)`
+  background-color: red;
+  width: 100%;
+`
 
 const StyledCategoryButton = styled(HStack)`
   margin: 10px 0;

@@ -6,7 +6,7 @@ import {
 import styled from "styled-components";
 import {MaterialCommunityIcons} from "@expo/vector-icons"
 import {BottomSheetModalSupervisor, useBottomSheetModalSupervisor} from "./components/BottomSheetModalSupervisor";
-import {NewExpenseView} from "./components/NewExpenseView";
+import {NewExpenseScreen} from "./components/NewExpenseScreen";
 import {useBottomSheetModal} from "@gorhom/bottom-sheet";
 
 export const Main = () => {
@@ -30,7 +30,7 @@ export const Main = () => {
                 </FooterBar>
             </MainContainer>
             <BottomSheetModalSupervisor>
-                <NewExpenseView/>
+                <NewExpenseScreen/>
             </BottomSheetModalSupervisor>
 
         </>

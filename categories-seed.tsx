@@ -1,338 +1,330 @@
-interface CategoriesType {
-    categories: Category[]
-}
-
-interface Category {
+export interface Category {
     title: string,
     icon: string,
     color: string,
     subcategories: Subcategory[]
 }
 
-type Subcategory = Pick<Category, 'title' | 'icon'>
+export type Subcategory = Pick<Category, 'title' | 'icon'>
 
-const categories = [
+export const categories: Category[] = [
     {
         title: 'Wydatki różne',
         icon: '',
-        color: '',
+        color: '#d2d2d2',
         subcategories: [
             {
                 title: 'Koszty banku',
-                icon: ''
-            },
-            {
-                title: 'Nieznany',
-                icon: ''
+                icon: 'bank'
             },
             {
                 title: 'Opieka zdrowotna',
-                icon: ''
+                icon: 'heart'
             },
             {
                 title: 'Pożyczka studencka',
-                icon: ''
+                icon: 'school'
             },
             {
                 title: 'Ubrania',
-                icon: ''
+                icon: 'tshirt-crew'
             },
             {
                 title: 'Wydatki rożne',
-                icon: ''
+                icon: 'archive'
             },
         ]
     },
     {
         title: 'Rozrywki',
         icon: '',
-        color: '',
+        color: '#f790ca',
         subcategories: [
             {
                 title: 'Elektronika',
-                icon: ''
+                icon: 'lightning-bolt'
             },
             {
                 title: 'Hobby',
-                icon: ''
+                icon: 'archive'
             },
             {
                 title: 'Kino',
-                icon: ''
+                icon: 'theater'
             },
             {
                 title: 'Klub',
-                icon: ''
+                icon: 'glass-mug-variant'
             },
             {
                 title: 'Koncert',
-                icon: ''
+                icon: 'microphone-variant'
             },
             {
                 title: 'Kręgle',
-                icon: ''
+                icon: 'bowling'
             },
             {
                 title: 'Rozrywki',
-                icon: ''
+                icon: 'emoticon-happy'
             },
             {
                 title: 'Siłownia',
-                icon: ''
+                icon: 'dumbbell'
             },
             {
                 title: 'Sport',
-                icon: ''
+                icon: 'basketball'
             },
             {
                 title: 'Subskrybcja',
-                icon: ''
+                icon: 'youtube-subscription'
             },
             {
                 title: 'Wakacje',
-                icon: ''
+                icon: 'glass-cocktail'
             },
         ]
     },
     {
         title: 'Jedzenie',
         icon: '',
-        color: '',
+        color: '#74aff0',
         subcategories: [
             {
                 title: 'Jedzenie',
-                icon: ''
+                icon: 'noodles'
             },
             {
                 title: 'Kawa',
-                icon: ''
+                icon: 'coffee'
             },
             {
                 title: 'Napoje',
-                icon: ''
+                icon: 'cup-water'
             },
             {
                 title: 'Restauracja',
-                icon: ''
+                icon: 'table-chair'
             },
             {
                 title: 'Słodycze',
-                icon: ''
+                icon: 'candy'
             },
             {
                 title: 'Zakupy spożywcze',
-                icon: ''
+                icon: 'cart'
             },
         ]
     },
     {
         title: 'Domowe',
         icon: '',
-        color: '',
+        color: '#feac36',
         subcategories: [
             {
                 title: 'Artykuły domowe',
-                icon: ''
+                icon: 'spray-bottle'
             },
             {
                 title: 'Bank',
-                icon: ''
+                icon: 'bank'
             },
             {
                 title: 'Czynsz',
-                icon: ''
+                icon: 'cash-100'
             },
             {
                 title: 'Domowe',
-                icon: ''
+                icon: 'home-city'
             },
             {
                 title: 'Internet',
-                icon: ''
+                icon: 'web'
             },
             {
                 title: 'Konserwacja',
-                icon: ''
+                icon: 'hammer'
             },
             {
                 title: 'Podatki',
-                icon: ''
+                icon: 'percent'
             },
             {
                 title: 'Pożyczka',
-                icon: ''
+                icon: 'cash-fast'
             },
             {
                 title: 'Prąd',
-                icon: ''
+                icon: 'lightning-bolt'
             },
             {
                 title: 'Telefon',
-                icon: ''
+                icon: 'cellphone'
             },
             {
                 title: 'Telewizja',
-                icon: ''
+                icon: 'television-classic'
             },
             {
                 title: 'Ubezpeczenie',
-                icon: ''
+                icon: 'shield-home'
             },
             {
                 title: 'Woda',
-                icon: ''
+                icon: 'water'
             },
         ]
     },
     {
         title: 'Przychody',
         icon: '',
-        color: '',
+        color: '#b3d142',
         subcategories: [
             {
                 title: 'Inwestycje',
-                icon: ''
+                icon: 'cash'
             },
             {
                 title: 'Odsetki',
-                icon: ''
+                icon: 'cash-refund'
             },
             {
                 title: 'Pensja',
-                icon: ''
+                icon: 'cash-multiple'
             },
             {
-                title: 'Przychody',
-                icon: ''
+                title: 'Przychód',
+                icon: 'cash-plus'
             },
             {
                 title: 'Zasiłek na dziecko',
-                icon: ''
+                icon: 'baby'
             }
         ]
     },
     {
         title: 'Styl życia',
         icon: '',
-        color: '',
+        color: '#ff7177',
         subcategories: [
             {
                 title: 'Apteka',
-                icon: ''
+                icon: 'pill'
             },
             {
                 title: 'Darowizny',
-                icon: ''
+                icon: 'heart'
             },
             {
                 title: 'Dentysta',
-                icon: ''
+                icon: 'tooth'
             },
             {
                 title: 'Edukacja',
-                icon: ''
+                icon: 'school'
             },
             {
                 title: 'Hotel',
-                icon: ''
+                icon: 'bed'
             },
             {
                 title: 'Lekarz',
-                icon: ''
+                icon: 'doctor'
             },
             {
                 title: 'Opieka nad dzieckiem',
-                icon: ''
+                icon: 'human-baby-changing-table'
             },
             {
                 title: 'Podróże',
-                icon: ''
+                icon: 'airplane'
             },
             {
                 title: 'Prezent',
-                icon: ''
+                icon: 'gift'
             },
             {
                 title: 'Styl życia',
-                icon: ''
+                icon: 'star'
             },
             {
                 title: 'Wydatki biurowe',
-                icon: ''
+                icon: 'archive'
             },
             {
                 title: 'Zakupy',
-                icon: ''
+                icon: 'cart'
             },
             {
                 title: 'Zwierzęta',
-                icon: ''
+                icon: 'paw'
             }
         ]
     },
     {
         title: 'Oszczędności',
         icon: '',
-        color: '',
+        color: '#3cccde',
         subcategories: [
             {
                 title: 'Poduszka bezpieczeństwa',
-                icon: ''
+                icon: 'cash-lock'
             },
             {
                 title: 'Oszczędności na samochód',
-                icon: ''
+                icon: 'car-clock'
             },
             {
                 title: 'Oszczędności na mieszkanie',
-                icon: ''
+                icon: 'home'
             },
             {
                 title: 'Oszczędności',
-                icon: ''
+                icon: 'piggy-bank'
             },
         ]
     },
     {
         title: 'Transport',
         icon: '',
-        color: '',
+        color: '#9b40ef',
         subcategories: [
             {
-                title: 'Gaz',
-                icon: ''
+                title: 'Paliwo',
+                icon: 'gas-station'
             },
             {
                 title: 'Lot',
-                icon: ''
+                icon: 'airplane'
             },
             {
                 title: 'Naprawa',
-                icon: ''
+                icon: 'car-wrench'
             },
             {
                 title: 'Parking',
-                icon: ''
+                icon: 'parking'
             },
             {
                 title: 'Pożyczka samochodowa',
-                icon: ''
+                icon: 'cash-fast'
             },
             {
                 title: 'Taxi',
-                icon: ''
+                icon: 'taxi'
             },
             {
                 title: 'Transport',
-                icon: ''
+                icon: 'train-car'
             },
             {
                 title: 'Transport publiczny',
-                icon: ''
+                icon: 'train-variant'
             },
             {
-                title: 'Unezpieczenie samochodu',
-                icon: ''
+                title: 'Ubezpieczenie samochodu',
+                icon: 'shield-car'
             },
         ]
     }

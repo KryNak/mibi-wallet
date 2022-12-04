@@ -1,30 +1,19 @@
-import {
-    Box,
-    Button,
-    Divider,
-    HStack,
-    Icon,
-    Input,
-    Modal,
-    Pressable,
-    Stack,
-    Text,
-    theme,
-} from "native-base";
+import {Box, Button, Divider, HStack, Icon, Input, Pressable, Stack, Text, theme} from "native-base";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import Animated, {useAnimatedStyle, useSharedValue, withTiming} from "react-native-reanimated";
 import styled, {css} from "styled-components";
 import RNDateTimePicker, {DateTimePickerEvent} from "@react-native-community/datetimepicker";
 import {useState} from "react";
 import {BottomSheetTextInput} from "@gorhom/bottom-sheet";
-import {colors} from "../colors";
-import {Avatar, ExpandableSection, ListItem} from "react-native-ui-lib";
+import {CategoryScreen} from "./CategoryScreen";
+import {useDispatch} from "react-redux";
+import {openCategoryModal} from "../store";
 
-export const NewExpenseView = () => {
+export const NewExpenseScreen = () => {
 
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const dispatch = useDispatch()
 
-    const animation = useSharedValue({height: 200})
+    const animation = useSharedValue({height: 0})
     const animationStyle = useAnimatedStyle(() => {
         return {
             height: withTiming(animation.value.height, {
@@ -49,9 +38,6 @@ export const NewExpenseView = () => {
 
         animation.value = {height: 200}
     }
-
-    const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
     return (
         <ActionSheetContainer>
@@ -95,8 +81,9 @@ export const NewExpenseView = () => {
                 <Divider/>
                 <CategorySelect>
                     <Icon as={MaterialCommunityIcons} name={'grid'} size={'2xl'}/>
-                    <Pressable onPress={() => setIsOpen(true)} style={{width: '100%', height: '100%'}}/>
+                    <Pressable onPress={() => dispatch(openCategoryModal())} style={{width: '100%', height: '100%'}}/>
                 </CategorySelect>
+                <CategoryScreen/>
                 <Divider/>
                 <StyledCategoryButton>
                     <Icon as={MaterialCommunityIcons} name={'note-edit-outline'}
@@ -108,43 +95,9 @@ export const NewExpenseView = () => {
                     <Button size={'md'}>Zapisz</Button>
                 </SaveExpenseButtonArea>
             </ActionSheetInnerContainer>
-            <Modal justifyContent={'flex-start'} animationPreset={'fade'} size={'full'} isOpen={isOpen} onClose={() => setIsOpen(false)}>
-                <Modal.Content style={{backgroundColor: colors.secondary}} flex={1} minHeight={'100%'}>
-                    <Modal.CloseButton marginTop={35}/>
-                    <Modal.Header style={{backgroundColor: colors.secondary}} marginTop={35}>Wybierz kategorię</Modal.Header>
-                    <Modal.Body>
-                        <ExpandableSection
-                            expanded={isExpanded}
-                            sectionHeader={<Text>Wydatki różne</Text>}
-                            onPress={() => setIsExpanded(prev => !isExpanded)}>
-                            {items.map(e => {
-                                return (
-                                    <StyledListItem key={e}>
-                                        <ListItem.Part left>
-                                            <Avatar name={`${e}`} useAutoColors={true} size={20}/>
-                                        </ListItem.Part>
-                                        <ListItem.Part middle>
-                                            <Text>{e}</Text>
-                                        </ListItem.Part>
-                                    </StyledListItem>
-                                )
-                            })}
-                        </ExpandableSection>
-                        <ExpandableSection
-                            expanded={false}
-                            sectionHeader={<Text>Rozrywki</Text>}>
-                        </ExpandableSection>
-                    </Modal.Body>
-                </Modal.Content>
-            </Modal>
         </ActionSheetContainer>
     )
 }
-
-const StyledListItem = styled(ListItem)`
-  background-color: red;
-  width: 100%;
-`
 
 const StyledCategoryButton = styled(HStack)`
   margin: 10px 0;
@@ -179,7 +132,7 @@ const DateTextArea = styled(Box)`
 `
 
 const CategorySelect = styled(Box)`
-  margin: 10px 0px;
+  margin: 10px 0;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -190,12 +143,6 @@ const MoneyInput = styled(Input)`
   width: 100%;
   min-width: 100%;
   text-align: right;
-  margin-top: 5px;
-  margin-bottom: 5px;
-`
-
-const StyledInput = styled(Input)`
-  width: 80%;
   margin-top: 5px;
   margin-bottom: 5px;
 `

@@ -1,16 +1,21 @@
-import {Box, Button, Divider, HStack, Icon, Input, Pressable, Stack, Text, theme} from "native-base";
+import {Box, Divider, HStack, Icon, Pressable, Stack, Text} from "native-base";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import Animated, {useAnimatedStyle, useSharedValue, withTiming} from "react-native-reanimated";
-import styled, {css} from "styled-components";
+import styled from "styled-components";
 import RNDateTimePicker, {DateTimePickerEvent} from "@react-native-community/datetimepicker";
-import {useState} from "react";
+import React, {useRef, useState} from "react";
 import {BottomSheetTextInput} from "@gorhom/bottom-sheet";
 import {CategoryScreen} from "./CategoryScreen";
 import {useDispatch} from "react-redux";
 import {openCategoryModal} from "../store";
+import {Button, Chip, MaskedInput, SegmentedControl, View} from "react-native-ui-lib";
+import {StyleSheet} from "react-native";
+import {colors} from "../colors";
+import KeyboardAccessoryView from "react-native-ui-lib/lib/components/Keyboard/KeyboardInput/KeyboardAccessoryView";
 
 export const NewExpenseScreen = () => {
 
+    const moneyInputRef = useRef(null)
     const dispatch = useDispatch()
 
     const animation = useSharedValue({height: 0})
@@ -28,7 +33,6 @@ export const NewExpenseScreen = () => {
     };
 
     const [date, setDate] = useState<Date>(new Date());
-    const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
     const toggleDatePicker = () => {
         if (animation.value.height === 200) {
@@ -39,34 +43,41 @@ export const NewExpenseScreen = () => {
         animation.value = {height: 200}
     }
 
+    const renderPrice = (value: string) => {
+        const hasValue = Boolean(value && value.length > 0);
+        return (
+            <View style={styles.moneyInputInnerContainerStyle}>
+                <Text style={styles.moneyInputStyle}>
+                    {"- "}
+                </Text>
+                <Text style={styles.moneyInputStyle}>
+                    {hasValue ? value : '0'}
+                </Text>
+                <View style={styles.moneyInputSuffixStyle}>
+                    <Chip labelStyle={styles.currencyChipLabelStyle}
+                          containerStyle={styles.currencyChipContainerStyle}
+                          label={'PLN'}
+                    />
+                </View>
+            </View>)
+    };
+
     return (
         <ActionSheetContainer>
             <ActionSheetInnerContainer>
-                <Bar>
-                    <BarButton onPress={() => setSelectedIndex(0)} isSelected={selectedIndex === 0}>
-                        {({isPressed}) => (
-                            <BarButtonInnerArea isPressed={isPressed}>
-                                <Text>Wydatek</Text>
-                            </BarButtonInnerArea>
-                        )}
-                    </BarButton>
-                    <BarButton onPress={() => setSelectedIndex(1)} isSelected={selectedIndex === 1}>
-                        {({isPressed}) => (
-                            <BarButtonInnerArea isPressed={isPressed}>
-                                <Text>Przychod</Text>
-                            </BarButtonInnerArea>
-                        )}
-                    </BarButton>
-                    <BarButton onPress={() => setSelectedIndex(2)} isSelected={selectedIndex === 2}>
-                        {({isPressed}) => (
-                            <BarButtonInnerArea isPressed={isPressed}>
-                                <Text>Przelew</Text>
-                            </BarButtonInnerArea>
-                        )}
-                    </BarButton>
-                </Bar>
-                <Divider/>
-                <MoneyInput size={'2xl'}/>
+                <SegmentedControl
+                    backgroundColor={colors.secondary}
+                    segments={[{label: 'Wydatek'}, {label: 'Przychód'}, {label: 'Przelew'}]}
+                    inactiveColor={'white'}
+                    style={styles.segmentStyle}
+                />
+                <MaskedInput
+                    containerStyle={styles.moneyInputContainerStyle}
+                    renderMaskedText={renderPrice}
+                    formatter={(value: string) => value?.replace(/\D/g, '')}
+                    keyboardType={'numeric'}
+                    ref={moneyInputRef}
+                />
                 <Divider/>
                 <DateTextArea>
                     <Icon as={MaterialCommunityIcons} name={'calendar'} size={'2xl'}></Icon>
@@ -91,13 +102,60 @@ export const NewExpenseScreen = () => {
                     <BottomSheetTextInput style={{width: '100%'}}/>
                 </StyledCategoryButton>
                 <Divider/>
-                <SaveExpenseButtonArea>
-                    <Button size={'md'}>Zapisz</Button>
-                </SaveExpenseButtonArea>
+                <View style={styles.addExpenseButtonContainerStyle}>
+                    <Button style={styles.addExpenseButtonStyle}
+                            label={'Dodaj'}
+                            size={Button.sizes.large}
+                            enableShadow
+                    />
+                </View>
             </ActionSheetInnerContainer>
         </ActionSheetContainer>
     )
 }
+
+const styles = StyleSheet.create({
+    segmentStyle: {
+        marginTop: 15,
+        borderColor: 'white',
+    },
+    moneyInputContainerStyle: {
+        height: 100
+    },
+    moneyInputInnerContainerStyle: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginVertical: 30,
+        alignItems: 'center',
+    },
+    moneyInputStyle: {
+        fontSize: 50,
+        lineHeight: 50,
+    },
+    moneyInputPrefixStyle: {
+
+    },
+    moneyInputSuffixStyle: {
+        marginLeft: 5
+    },
+    currencyChipContainerStyle: {
+        borderColor: 'white',
+        borderWidth: 1
+    },
+    currencyChipLabelStyle: {
+        color: 'white'
+    },
+    addExpenseButtonContainerStyle: {
+        marginVertical: 10,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    addExpenseButtonStyle: {
+        width: '100%'
+    }
+});
 
 const StyledCategoryButton = styled(HStack)`
   margin: 10px 0;
@@ -116,6 +174,7 @@ const ActionSheetContainer = styled(Stack)`
 
 const ActionSheetInnerContainer = styled(Stack)`
   width: 100%;
+  padding: 0 15px;
 `
 
 const DirectDateComponent = styled(RNDateTimePicker)`
@@ -137,50 +196,4 @@ const CategorySelect = styled(Box)`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-`
-
-const MoneyInput = styled(Input)`
-  width: 100%;
-  min-width: 100%;
-  text-align: right;
-  margin-top: 5px;
-  margin-bottom: 5px;
-`
-
-const Bar = styled(HStack)`
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 10px;
-`
-
-const BarButton = styled(Pressable)<BarButtonProps>`
-  padding: 10px 10px;
-  border-radius: 5%;
-
-  ${props => props.isSelected && css`
-    background-color: ${theme.colors.violet["600"]};
-  `}
-`
-
-const SaveExpenseButtonArea = styled(HStack)`
-  margin-top: 10px;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: center;
-`
-
-interface BarButtonProps {
-    isSelected: boolean
-}
-
-
-
-interface BarButtonInnerAreaProps {
-    isPressed: boolean
-}
-
-const BarButtonInnerArea = styled(Box)<BarButtonInnerAreaProps>`
-  ${props => props.isPressed && css`
-    transform: scale(0.95);
-  `}
 `

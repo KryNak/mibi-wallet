@@ -1,11 +1,10 @@
-import {Divider, HStack, Icon, Modal} from "native-base";
+import {Divider, HStack, Icon} from "native-base";
 import {colors} from "../colors";
-import {Avatar, ExpandableSection, ListItem} from "react-native-ui-lib";
+import {Avatar, Dash, ExpandableSection, ListItem, Modal} from "react-native-ui-lib";
 import {useDispatch, useSelector} from "react-redux";
 import {closeCategoryModal, RootState} from "../store";
-import styled, {css} from "styled-components";
 import {useState} from "react";
-import {Text} from "react-native";
+import {ScrollView, StyleSheet, Text} from "react-native";
 import {categories, Category} from "../categories-seed";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 
@@ -34,95 +33,93 @@ export const CategoryScreen = () => {
     }
 
     return (
-        <Modal justifyContent={'flex-start'} animationPreset={'fade'} size={'full'} isOpen={isOpen}
-               onClose={closeModal}>
-            <StyledModalContent>
-                <StyledModalCloseButton/>
-                <StyledModalHeader>Wybierz kategorię</StyledModalHeader>
-                <Modal.Body>
-                    {categories.map((category, i) => {
-                        return (
-                            <ExpandableSection
-                                key={i}
-                                expanded={isPresent(category)}
-                                sectionHeader={(
-                                    <>
-                                        <StyledRow>
-                                            <StyledSectionHeader>
-                                                {category.title}
-                                            </StyledSectionHeader>
-                                            <Icon size={'lg'}
-                                                  as={MaterialCommunityIcons}
-                                                  name={isPresent(category) ? 'eye' : 'eye-off'}
-                                            />
-                                        </StyledRow>
-                                        <Divider/>
-                                    </>
-                                )}
-                                onPress={() => toggle(category)}>
-                                {category.subcategories.map((subcategory, j) => {
-                                    return (
-                                        <StyledListItem key={j}>
-                                            <ListItem.Part>
-                                                <Avatar backgroundColor={category.color}
-                                                        containerStyle={{marginRight: 12}}
-                                                        size={40}>
-                                                    <Icon size={'xl'}
-                                                          as={MaterialCommunityIcons}
-                                                          name={subcategory.icon}/>
-                                                </Avatar>
-                                            </ListItem.Part>
-                                            <ListItem.Part>
-                                                <StyledSubcategoryText>
-                                                    {subcategory.title}
-                                                </StyledSubcategoryText>
-                                            </ListItem.Part>
-                                        </StyledListItem>
-                                    )
-                                })}
-                            </ExpandableSection>
-                        )
-                    })}
-                </Modal.Body>
-            </StyledModalContent>
+        <Modal containerStyle={styles.modalStyle} visible={isOpen} overlayBackgroundColor={colors.secondary}>
+            <Modal.TopBar
+                containerStyle={styles.modalTopBarStyle}
+                title={"Wybierz kategorię"}
+                titleStyle={styles.modalTitleStyle}
+                onCancel={closeModal}
+                cancelButtonProps={{iconStyle: {tintColor: 'white'}}}
+            />
+            <Dash containerStyle={styles.dashStyle} gap={10} length={1000} thickness={1} color={'white'}/>
+            <ScrollView style={styles.scrollViewStyle}>
+                {categories.map((category, i) => {
+                    return (
+                        <ExpandableSection
+                            key={i}
+                            expanded={isPresent(category)}
+                            sectionHeader={(
+                                <>
+                                    <HStack style={styles.rowStyle}>
+                                        <Text style={styles.sectionHeaderStyle}>
+                                            {category.title}
+                                        </Text>
+                                        <Icon size={'lg'}
+                                              as={MaterialCommunityIcons}
+                                              name={isPresent(category) ? 'eye' : 'eye-off'}
+                                        />
+                                    </HStack>
+                                    <Divider/>
+                                </>
+                            )}
+                            onPress={() => toggle(category)}>
+                            {category.subcategories.map((subcategory, j) => {
+                                return (
+                                    <ListItem key={j}>
+                                        <ListItem.Part>
+                                            <Avatar backgroundColor={category.color}
+                                                    containerStyle={{marginRight: 12}}
+                                                    size={40}>
+                                                <Icon size={'xl'}
+                                                      as={MaterialCommunityIcons}
+                                                      name={subcategory.icon}/>
+                                            </Avatar>
+                                        </ListItem.Part>
+                                        <ListItem.Part>
+                                            <Text style={styles.sectionSubcategoryStyle}>
+                                                {subcategory.title}
+                                            </Text>
+                                        </ListItem.Part>
+                                    </ListItem>
+                                )
+                            })}
+                        </ExpandableSection>
+                    )
+                })}
+            </ScrollView>
         </Modal>
     )
 }
 
-const StyledRow = styled(HStack)`
-  margin: 10px 0;
-  justify-content: space-between;
-`
-
-const StyledSectionHeader = styled(Text)`
-  font-size: 20px;
-  color: white;
-`
-
-const StyledSubcategoryText = styled(Text)`
-  font-size: 16px;
-  color: white;
-`
-
-const StyledListItem = styled(ListItem)`
-  width: 100%;
-`
-
-const StyledModalContent = styled(Modal.Content)`
-  background-color: ${colors.secondary};
-  flex: 1;
-  min-height: 100%;
-`
-
-const ModalHeaderShared = css`
-  margin-top: 35px;
-`
-
-const StyledModalHeader = styled(Modal.Header)`
-  ${ModalHeaderShared};
-  background-color: ${colors.secondary};
-`
-
-const StyledModalCloseButton = styled(Modal.CloseButton)`
-  ${ModalHeaderShared};
-`
+const styles = StyleSheet.create({
+    modalTopBarStyle: {
+        marginTop: 45
+    },
+    modalTitleStyle: {
+        color: 'white',
+        textTransform: 'uppercase'
+    },
+    modalStyle: {
+        paddingHorizontal: 10
+    },
+    dashStyle: {
+        marginTop: 10,
+        marginBottom: 5
+    },
+    scrollViewStyle: {
+        paddingHorizontal: 15,
+        marginBottom: 30
+    },
+    sectionHeaderStyle: {
+        fontSize: 20,
+        color: 'white'
+    },
+    sectionSubcategoryStyle: {
+        fontSize: 16,
+        color: 'white'
+    },
+    rowStyle: {
+        marginVertical: 10,
+        justifyContent: 'space-between'
+    }
+})

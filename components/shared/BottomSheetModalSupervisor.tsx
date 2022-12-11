@@ -1,4 +1,4 @@
-import {colors} from "../colors";
+import {colors} from "../../colors";
 import {BottomSheetModal} from "@gorhom/bottom-sheet";
 import {createContext, RefObject, useContext, useMemo, useRef} from "react";
 import {BottomSheetModalMethods} from "@gorhom/bottom-sheet/lib/typescript/types";
@@ -57,7 +57,7 @@ export const BottomSheetModalSupervisor = ({children}: BottomSheetModalSuperviso
             ref={ref}
             index={0}
             snapPoints={['95%']}
-            backgroundStyle={{backgroundColor: colors.secondary}}
+            backgroundStyle={{backgroundColor: colors.background_primary}}
             handleIndicatorStyle={{backgroundColor: 'white'}}
         >
             {children}

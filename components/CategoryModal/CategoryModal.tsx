@@ -1,14 +1,14 @@
 import {Divider, HStack, Icon} from "native-base";
-import {colors} from "../colors";
+import {colors} from "../../colors";
 import {Avatar, Dash, ExpandableSection, ListItem, Modal} from "react-native-ui-lib";
 import {useDispatch, useSelector} from "react-redux";
-import {closeCategoryModal, RootState} from "../store";
+import {closeCategoryModal, RootState} from "../../store";
 import {useState} from "react";
 import {ScrollView, StyleSheet, Text} from "react-native";
-import {categories, Category} from "../categories-seed";
+import {categories, Category} from "../../categories-seed";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 
-export const CategoryScreen = () => {
+export const CategoryModal = () => {
 
     const isOpen = useSelector((rootState: RootState) => rootState.app.isCategoryModalOpen);
     const dispatch = useDispatch()
@@ -33,7 +33,9 @@ export const CategoryScreen = () => {
     }
 
     return (
-        <Modal containerStyle={styles.modalStyle} visible={isOpen} overlayBackgroundColor={colors.secondary}>
+        <Modal containerStyle={styles.modalStyle}
+               visible={isOpen}
+               overlayBackgroundColor={styles.modalBackgroundColor.backgroundColor}>
             <Modal.TopBar
                 containerStyle={styles.modalTopBarStyle}
                 title={"Wybierz kategorię"}
@@ -101,6 +103,9 @@ const styles = StyleSheet.create({
     },
     modalStyle: {
         paddingHorizontal: 10
+    },
+    modalBackgroundColor: {
+        backgroundColor: colors.background_primary
     },
     dashStyle: {
         marginTop: 10,

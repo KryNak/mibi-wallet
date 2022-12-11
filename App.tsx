@@ -1,9 +1,9 @@
 import { Provider as ReduxProvider } from "react-redux";
 import { store } from "./store";
-import { Main } from "./Main";
+import { MainScreen } from "./components/MainScreen/MainScreen";
 import { extendTheme, NativeBaseProvider } from "native-base";
 import { StatusBar } from "react-native";
-import { BottomSheetModalSupervisorContextProvider } from "./components/BottomSheetModalSupervisor";
+import { BottomSheetModalSupervisorContextProvider } from "./components/shared/BottomSheetModalSupervisor";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 export default function App() {
@@ -45,7 +45,7 @@ export default function App() {
             <NativeBaseProvider theme={theme}>
                 <BottomSheetModalProvider>
                     <BottomSheetModalSupervisorContextProvider>
-                        <Main/>
+                        <MainScreen/>
                     </BottomSheetModalSupervisorContextProvider>
                 </BottomSheetModalProvider>
             </NativeBaseProvider>

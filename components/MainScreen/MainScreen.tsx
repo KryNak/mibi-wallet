@@ -1,15 +1,16 @@
 import {
     Box,
     Button, Icon,
-    IconButton, Text
+    IconButton
 } from "native-base";
 import styled from "styled-components";
 import {MaterialCommunityIcons} from "@expo/vector-icons"
-import {BottomSheetModalSupervisor, useBottomSheetModalSupervisor} from "./components/BottomSheetModalSupervisor";
-import {NewExpenseScreen} from "./components/NewExpenseScreen";
+import {BottomSheetModalSupervisor, useBottomSheetModalSupervisor} from "../shared/BottomSheetModalSupervisor";
+import {NewExpense} from "../NewExpense/NewExpense";
 import {useBottomSheetModal} from "@gorhom/bottom-sheet";
+import {colors} from "../../colors";
 
-export const Main = () => {
+export const MainScreen = () => {
 
     useBottomSheetModal()
     const { open } = useBottomSheetModalSupervisor()
@@ -30,7 +31,7 @@ export const Main = () => {
                 </FooterBar>
             </MainContainer>
             <BottomSheetModalSupervisor>
-                <NewExpenseScreen/>
+                <NewExpense/>
             </BottomSheetModalSupervisor>
 
         </>
@@ -45,12 +46,12 @@ const MainContainer = styled(Box)`
 const TopBar = styled(Box)`
   flex: 0 1;
   min-height: 80px;
-  background-color: #2C2C38;
+  background-color: ${colors.background_secondary};
 `
 
 const MainContent = styled(Box)`
   flex: 1 0;
-  background-color: #22212D;
+  background-color: ${colors.background_primary};
 `
 
 const FooterBar = styled(Box)`

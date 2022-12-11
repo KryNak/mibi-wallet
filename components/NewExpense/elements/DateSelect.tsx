@@ -36,7 +36,8 @@ export const DateSelect = () => {
         <>
             <Box style={styles.dateTriggerButtonStyles}>
                 <Icon as={MaterialCommunityIcons}
-                      name={'calendar'} size={'2xl'}/>
+                      name={'calendar'}
+                      size={'2xl'}/>
                 <Pressable onPress={toggleDatePicker}>
                     <Text fontSize={16}>{date.toDateString()}</Text>
                 </Pressable>

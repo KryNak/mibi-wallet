@@ -1,23 +1,32 @@
-import {HStack, Icon} from "native-base";
-import {MaterialCommunityIcons} from "@expo/vector-icons";
-import {BottomSheetTextInput} from "@gorhom/bottom-sheet";
+import {HStack, Input} from "native-base";
 import React from "react";
-import styled from "styled-components";
+import {StyleSheet} from "react-native";
+import {IconAvatar} from "../../shared/IconAvatar";
 
 export const NoteInput = () => {
     return (
-        <StyledCategoryButton>
-            <Icon as={MaterialCommunityIcons} name={'note-edit-outline'}
-                  size={'2xl'}></Icon>
-            <BottomSheetTextInput style={{width: '100%'}}/>
-        </StyledCategoryButton>
+        <HStack style={styles.categoryButtonStyle}>
+            <IconAvatar iconName={"note-edit-outline"}
+                        iconColor={styles.iconColorStyle.color}
+                        iconSize={"md"}
+                        avatarBackgroundColor={styles.avatarBackgroundColorStyle.backgroundColor}/>
+            <Input style={{width: '100%'}}/>
+        </HStack>
     )
 }
 
-const StyledCategoryButton = styled(HStack)`
-  margin: 10px 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`
+const styles = StyleSheet.create({
+    categoryButtonStyle: {
+        marginVertical: 10,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center"
+    },
+    iconColorStyle: {
+        color: "red"
+    },
+    avatarBackgroundColorStyle: {
+        backgroundColor: "#ffda4f"
+    }
+})

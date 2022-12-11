@@ -23,7 +23,7 @@ const renderPrice = (value: string) => {
         </View>)
 };
 
-export const  MoneyInput = () => {
+export const MoneyInput = () => {
 
     const inputAccessoryViewID = 'moneyInputID';
 
@@ -39,8 +39,10 @@ export const  MoneyInput = () => {
             />
             <InputAccessoryView nativeID={inputAccessoryViewID}>
                 <View style={styles.inputAccessoryContainerStyle}>
-                    <TouchableOpacity onPress={Keyboard.dismiss}
-                                      style={styles.inputAccessoryHideButtonStyle}>
+                    <TouchableOpacity
+                        onPress={Keyboard.dismiss}
+                        style={styles.inputAccessoryHideButtonStyle}
+                    >
                         <Text>Done</Text>
                     </TouchableOpacity>
                 </View>
@@ -65,9 +67,7 @@ const styles = StyleSheet.create({
         fontSize: 50,
         lineHeight: 50,
     },
-    moneyInputPrefixStyle: {
-
-    },
+    moneyInputPrefixStyle: {},
     moneyInputSuffixStyle: {
         marginLeft: 5
     },
